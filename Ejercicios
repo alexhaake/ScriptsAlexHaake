@@ -1,0 +1,291 @@
+-----------------------------------------------------1:IPTABLES PARAMETROS---------------------------------------------
+#!/bin/bash
+clear
+while :
+do
+echo " Escoja una opcion "
+echo "v1:1  Crear documento de bloqueo"
+echo "v1:2  v2: Añadir IP al documento  ( 0.0.0.0 )"
+echo "v1:3  Bloquear IPs del documento"
+echo "v1:4  Listar IP bloqueadas"
+echo "v1:5  Borrar IP bloquedas"
+echo "v1:6 v2:1 entrante v2: 2 saliente  Bloquear Puerto tcp/udp "
+echo "v1:7 v2:1 entrante v2: 2 saliente  Abrir Puerto tcp/udp"
+echo -n "v1: Seleccione una opcion [1 - 7]"
+
+case $1 in
+1)echo "Lista de Bloqueo" > ips.txt 
+exit 1
+;;
+2)
+	$2
+	if expr "$2" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'; then
+		echo "IP Añadida";	
+		  	echo $2 >> ips.txt;	
+	else
+		  echo "ERROR Formato 2 variable";
+	fi
+exit 1
+;;
+3) 
+iptables -F
+for IP in `cat ips.txt`
+        do
+         echo $IP
+                iptables -I INPUT -s $IP -j DROP
+        done
+exit 1
+;;
+4)
+iptables -L
+exit 1
+;;
+5)
+iptables -F
+exit 1
+;;
+6)		
+	echo "variable 2 : 1. Entrante"
+	echo "variable 2 : 2. Saliente"
+	
+case $2 in
+	1)
+	iptables -A INPUT -p tcp --dport $3 -j DROP
+	iptables -A INPUT -p udp --dport $3 -j DRO
+	exit 1 ;;
+	2) 	
+	iptables -A OUTPUT -p tcp --dport $3 -j DROP
+	iptables -A OUTPUT -p udp --dport $3 -j DROP
+	exit 1;;
+	
+	*) echo "$2 es una opcion invalida. ";
+	esac
+exit 1
+;;
+7)	echo "variables 2 : 1. Entrante"
+	echo "variables 2 : 2. Saliente"
+	
+case $2 in
+	1)echo "variable 3 -Inserte el puerto que desea bloquear";
+	$3;
+	iptables -A INPUT -p tcp --dport $3 -j ACCEPT
+	iptables -A INPUT -p udp --dport $3 -j ACCEPT
+	exit 1 ;;
+	2)echo "variable 3-Inserte el puerto que desea bloquear";
+	$3;	
+	iptables -A OUTPUT -p tcp --dport $3-j ACCEPT
+	iptables -A OUTPUT -p udp --dport $3 -j ACCEPT
+	exit 1 ;;
+
+	*)echo "";
+	 echo " $2 es una opcion invalida. " exit 1;
+	esac
+exit 1
+;;
+*) echo "$1 es una opcion invalida. "
+exit 1
+;;
+esac
+done
+
+
+
+
+-----------------------------------------------------------------2:IPTABLES READ-------------------------------------------------
+#!/bin/bash
+clear
+while :
+do
+echo " Escoja una opcion "
+echo "1. Crear documento de bloqueo"
+echo "2. Añadir IP al documento"
+echo "3. Bloquear IPs del documento"
+echo "4. Listar IP bloqueadas"
+echo "5. Borrar IP bloquedas"
+echo "6. Bloquear Puerto tcp/udp"
+echo "7. Abrir Puerto tcp/udp"
+echo "0. salir"
+echo -n "Seleccione una opcion [1 - 9]"
+read opcion
+case $opcion in
+1)echo "Lista de Bloqueo" > ips.txt ;;
+2)echo "Introduzca la ip ( 0.0.0.0 )";
+	read aip;
+	if expr "$aip" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'; then
+		echo "IP Añadida";	
+		  	echo $aip >> ips.txt;	
+	else
+		  echo "ERROR Formato";
+	fi
+;;
+3) 
+iptables -F
+for IP in `cat ips.txt`
+        do
+         echo $IP
+                iptables -I INPUT -s $IP -j DROP
+        done
+
+;;
+4)
+iptables -L
+;;
+5)
+iptables -F
+;;
+6)		
+	echo "1. Entrante"
+	echo "2. Saliente"
+	read opcion
+case $opcion in
+	1)echo "Inserte el puerto que desea bloquear";
+	read puerto;
+	iptables -A INPUT -p tcp --dport $puerto -j DROP
+	iptables -A INPUT -p udp --dport $puerto -j DROP
+	;;
+	2)echo "Inserte el puerto que desea bloquear";
+	read puerto;	
+	iptables -A OUTPUT -p tcp --dport $puerto -j DROP
+	iptables -A OUTPUT -p udp --dport $puerto -j DROP
+	;;
+	0) echo "Saliste: adios";
+	exit 1;;
+	*) echo "$opcion es una opcion invalida. ";
+	;;
+	esac
+;;
+7)	echo "1. Entrante"
+	echo "2. Saliente"
+	read opcion
+case $opcion in
+	1)echo "Inserte el puerto que desea bloquear";
+	read puerto;
+	iptables -A INPUT -p tcp --dport $puerto -j ACCEPT
+	iptables -A INPUT -p udp --dport $puerto -j ACCEPT
+	;;
+	2)echo "Inserte el puerto que desea bloquear";
+	read puerto;	
+	iptables -A OUTPUT -p tcp --dport $puerto -j ACCEPT
+	iptables -A OUTPUT -p udp --dport $puerto -j ACCEPT
+	;;
+	0) echo "Saliste: adios";
+	exit 1;;
+	*) echo "$opcion es una opcion invalida. ";
+	;;
+	esac
+;;
+
+0) echo "Saliste: adios";
+exit 1;;
+*) echo "$opcion es una opcion invalida. ";
+echo "Presiona una tecla para continuar...";
+read foo;;
+esac
+done
+--------------------------------------------------------------------------------------3:SH DIRECTORIOS----------------------------------------------------------
+#!/bin/bash
+clear
+
+echo "Introduzca (f/d) f:Ficheros d:Directorios "
+read opcion;
+case $opcion in
+	d) x="-d"
+	d="directorio"
+	;;
+	f) x="-f"
+	f="fichero"
+	;;
+*) echo "$opcion es una opcion invalida. ";
+esac
+
+while :
+do
+echo " Escoja una opcion "
+echo "1. Crea-> $d $f"
+echo "2. Eliminar-> $d $f"
+echo "3. Copìar-> $d $f "
+echo "4. Dar permisoso-> $d $f"
+echo "5. Cambiar tipo(f/d)"
+echo "0. salir"
+echo -n "Seleccione una opcion [1 - 4]"
+read opcion
+case $opcion in
+1)
+echo "Nombre del $d $f: "
+read di
+        if [ ! $x $di ];then
+	 echo "El $d $f no existe"
+         mkdir $di
+        else
+          echo "El $d $f ya existe"
+        fi
+;;
+2)
+echo "Nombre del $d $f: "
+read di
+ if [ ! $x $di ];then
+         
+         echo "El $d $f no existe"
+        else
+	  rm -r $di
+          echo "El $d $f se elimino"
+        fi
+;;
+3)
+echo "Nombre del $d $f: "
+read di
+ if [ ! $x $di ];then         
+        echo "El $d $f no existe"
+        else
+          echo "inserte nombre del directorio donde guardar la copia"
+	  read save
+		if [ ! -d $save ];then
+		echo "no existe $save se creo"
+		echo "archivo copiado en $save"
+		   cp -r $di $save
+		else
+		 echo "existe el directorio"
+		 echo "desea copiarlo en este directorio (s/n)?"
+		 		read opcion;
+				case $opcion in
+					s) cp -r $di $save
+					   echo "se copio $di en $save" 
+					;;
+					n) echo "nose copio"
+					;;
+				*) echo "$opcion es una opcion invalida. ";
+				esac 
+		fi 	 
+        fi
+;;
+4)echo "Nombre del $d $f: "
+read di
+ if [ ! $x $di ];then         
+         echo "El $d $f no existe"
+        else
+	  chmod 777 $di
+	  echo "PERMISOS CONCEDIDOS"
+          ls $x $di -l 
+        fi
+;;
+
+5)clear
+echo "Introduzca (f/d) f:Ficheros d:Directorios "
+read opcion;
+case $opcion in
+	d) x="-d"
+	d="directorio"
+	;;
+	f) x="-f"
+	f="fichero"
+	;;
+*) echo "$opcion es una opcion invalida. ";
+esac
+;;
+0) echo "Saliste: adios";
+exit 1;;
+*) echo "$opcion es una opcion invalida. ";
+echo "Presiona una tecla para continuar...";
+read foo;;
+esac
+done

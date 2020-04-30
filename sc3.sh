@@ -1,13 +1,14 @@
 #!/bin/bash
 #3 Realiza un script que compruebe si el usuario actual del sistema es blas, si es así visualiza su nombre 5 veces, sino te despides de él amigablemente.
-clear
-usu=$(whoami)
-if [[ $usu == blas ]]; then
-echo $usu
-echo $usu
-echo $usu
-echo $usu
-echo $usu
+
+v1='blas'
+v2=$(id -un)
+if [ $v2 == $v1 ]
+then
+	for i in 1 2 3 4 5; do
+	echo $v2;
+	done
+	 
 else
-echo "Hasta luego, $usu."
+echo "Hasta luego."
 fi

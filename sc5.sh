@@ -1,27 +1,36 @@
 #!/bin/bash
-#5 Tenemos un menu principal: 1 suma: lee dos numeros y los suma. 2 Resta. 3 Multiplicación. 4 Salir.
-read -p "Introduce-> 1Suma  2Resta 3Multiplicación 4Salir: " opcion
+#5 Tenemos un menu principal: lee dos numeros y los suma,Resta,Multiplicación. Salir 
+read -p "Introduce-> 1Suma  2Resta 3Multiplicación 0Salir: " opcion
 case $opcion in
+	
 	1)  
-	read -p "Primer número: " n1
-	read -p "Segundo número: " n2
-	suma=$(($n1 + $n2))
-	echo "$n1 + $n2 = $suma"
+	echo "numero1"
+	read n1
+	echo "Numero2"
+	read n2
+	echo "suma = $n1 + $n2"=$((n1+n2))
 	;;
 
 	2)  
-	read -p "Primer número: " n1
-	read -p "Segundo número: " n2
-	resta=$(($n1 - $n2))
-	echo "$n1 - $n2 = $resta"
+	echo "numero1"
+	read n1
+	echo "Numero2"
+	read n2
+	echo "resta = $n1 - $n2"=$((n1-n2))
 	;;
-
+	
 	3)  
-	read -p "Primer número: " n1
-	read -p "Segundo número: " n2
-	multi=$(($n1 * $n2))
-	echo "$n1 * $n2 = $multi"
+	echo "numero1"
+	read n1
+	echo "Numero2"
+	read n2
+	echo "Multiplicacions = $n1 * $n2"=$((n1*n2))
 	;;
 
-	*) exit 0
+	0)
+	echo "bye"
+	exit 
+	;; 
+	
 esac
+

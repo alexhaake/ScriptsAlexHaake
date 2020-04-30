@@ -3,12 +3,13 @@
 clear
 countD=0
 countF=0
-for i in $@; do
-	if [[ -d $i ]]; then
+ficheros=$(find -type d);
+for i in $ficheros;do
 	countD=$(($countD+1))
-	elif [[ -f $i ]]; then
+done;
+ficheros=$(find -type f);
+for i in $ficheros;do
 	countF=$(($countF+1))
-	fi
-done
+done;
 echo "Directorios son: $countD"
 echo "Ficheros son: $countF"

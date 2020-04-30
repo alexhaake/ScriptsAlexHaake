@@ -1,9 +1,11 @@
 #!/bin/bash
 #6 Nos pide la edad y nos dice si es mayor de edad o menor.
+echo "escribe tu edad "
+read edad
 
-read -p "Introduce tu edad: " edad
-if [[ $edad -ge 18 ]]; then
-echo "Mayor de edad."
+if [ $edad -gt 18 ] || [ $edad -eq 18 ]
+then
+ echo "mayor"
 else
-echo "Menor de edad."
+ echo "menor"
 fi
