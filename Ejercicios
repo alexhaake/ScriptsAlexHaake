@@ -1,4 +1,7 @@
------------------------------------------------------1:IPTABLES PARAMETROS---------------------------------------------
+NOTA IMPORTANTE : Tenia rehecho desde 1 hasta el 10 de los anteriores que los volvi a repetir pensando que tenia que hacerlos denuevo "todos de forma distinta"
+los subi a este repositorio por si cuenta algo (desde sh1.sh a sh10.sh) estos de debajo son los nuevos (1-IptablesP.sh 2-Iptables.sh , 3-directorio.sh )
+
+-----------------------------------------------------1:IPTABLES CON PARAMETROS---------------------------------------------
 #!/bin/bash
 clear
 while :
@@ -45,8 +48,7 @@ iptables -F
 exit 1
 ;;
 6)		
-	echo "variable 2 : 1. Entrante"
-	echo "variable 2 : 2. Saliente"
+	
 	
 case $2 in
 	1)
@@ -62,16 +64,15 @@ case $2 in
 	esac
 exit 1
 ;;
-7)	echo "variables 2 : 1. Entrante"
-	echo "variables 2 : 2. Saliente"
+7)	
 	
 case $2 in
-	1)echo "variable 3 -Inserte el puerto que desea bloquear";
+	1)
 	$3;
 	iptables -A INPUT -p tcp --dport $3 -j ACCEPT
 	iptables -A INPUT -p udp --dport $3 -j ACCEPT
 	exit 1 ;;
-	2)echo "variable 3-Inserte el puerto que desea bloquear";
+	2)
 	$3;	
 	iptables -A OUTPUT -p tcp --dport $3-j ACCEPT
 	iptables -A OUTPUT -p udp --dport $3 -j ACCEPT
@@ -87,7 +88,6 @@ exit 1
 ;;
 esac
 done
-
 
 
 

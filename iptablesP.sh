@@ -44,13 +44,12 @@ iptables -F
 exit 1
 ;;
 6)		
-	echo "variable 2 : 1. Entrante"
-	echo "variable 2 : 2. Saliente"
+	
 	
 case $2 in
 	1)
 	iptables -A INPUT -p tcp --dport $3 -j DROP
-	iptables -A INPUT -p udp --dport $3 -j DRO
+	iptables -A INPUT -p udp --dport $3 -j DROP
 	exit 1 ;;
 	2) 	
 	iptables -A OUTPUT -p tcp --dport $3 -j DROP
@@ -61,16 +60,15 @@ case $2 in
 	esac
 exit 1
 ;;
-7)	echo "variables 2 : 1. Entrante"
-	echo "variables 2 : 2. Saliente"
+7)	
 	
 case $2 in
-	1)echo "variable 3 -Inserte el puerto que desea bloquear";
+	1)
 	$3;
 	iptables -A INPUT -p tcp --dport $3 -j ACCEPT
 	iptables -A INPUT -p udp --dport $3 -j ACCEPT
 	exit 1 ;;
-	2)echo "variable 3-Inserte el puerto que desea bloquear";
+	2)
 	$3;	
 	iptables -A OUTPUT -p tcp --dport $3-j ACCEPT
 	iptables -A OUTPUT -p udp --dport $3 -j ACCEPT
